@@ -1,5 +1,5 @@
 import {defineCommand} from "../../src";
-import {createFile, getContent} from "../utils/fs";
+import {getGigetTemplate} from "../utils/giget";
 
 export default defineCommand({
     meta: {
@@ -13,19 +13,23 @@ export default defineCommand({
             options: ["utility", "alert", "overlay"],
             default: "utility",
             required: false,
+        },
+        external: {
+            type: "string",
+            description: 'link to github repo'
         }
     },
     async run(ctx) {
         try {
-            await createFile({
-                directoryPath: `${process.cwd()}/composables`,
-                fileName: `use${ctx.args.template.charAt(0).toUpperCase() + ctx.args.template.slice(1)}.ts`,
-                fileContent:await getContent(`${process.cwd()}/templates/${ctx.args.template}.ts`)
-            })
+            getGigetTemplate(ctx.args.external)
+            // await createFile({
+            //     directoryPath: `${process.cwd()}/composables`,
+            //     fileName: `use${ctx.args.template.charAt(0).toUpperCase() + ctx.args.template.slice(1)}.ts`,
+            //     fileContent:!ctx.args.external ? await getContent(`${process.cwd()}/templates/${ctx.args.template}.ts`) : getGigetTemplate(ctx.args.external)
+            // })
         } catch (e) {
             console.log(e)
         }
-
     },
 });
 
