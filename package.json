@@ -30,7 +30,9 @@
     "test": "pnpm lint && vitest run --coverage"
   },
   "dependencies": {
-    "consola": "^3.2.3"
+    "consola": "^3.2.3",
+    "giget": "^1.2.3",
+    "pathe": "^1.1.2"
   },
   "devDependencies": {
     "@types/node": "^20.12.7",
