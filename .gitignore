@@ -9,3 +9,4 @@ types
 .eslintcache
 *.log*
 *.env*
+composables

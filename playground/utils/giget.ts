@@ -1,15 +1,15 @@
-import {downloadTemplate} from "giget";
+import { downloadTemplate } from "giget";
 
 async function getGigetTemplate(url: string) {
-    try {
-        await downloadTemplate(url, {});
-
-    } catch (e) {
-        console.log(e)
-    }
+  try {
+    await downloadTemplate(url, {
+      cwd: ".",
+      dir: "./playground",
+      force: true,
+    });
+  } catch (e) {
+    console.log(e);
+  }
 }
 
-
-export {
-    getGigetTemplate
-}
+export { getGigetTemplate };
