@@ -17,7 +17,8 @@ export default defineCommand({
   },
   async run(ctx) {
     try {
-      await getGigetTemplate(ctx.args.template);
+      console.log(ctx.args)
+      // await getGigetTemplate(ctx.args.template);
       // await createFile({
       //     directoryPath: `${process.cwd()}/composables`,
       //     fileName: `use${ctx.args.template.charAt(0).toUpperCase() + ctx.args.template.slice(1)}.ts`,
