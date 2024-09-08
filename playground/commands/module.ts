@@ -9,7 +9,7 @@ export default defineCommand({
   args: {
     template: {
       type: "string",
-      description: "some local templates",
+      description: "module templates",
       options: ["utility", "alert", "overlay", "auth", "spinner"],
       default: "utility",
       required: false,
@@ -17,8 +17,7 @@ export default defineCommand({
   },
   async run(ctx) {
     try {
-      console.log(ctx.args)
-      // await getGigetTemplate(ctx.args.template);
+      await getGigetTemplate(ctx.args.template);
       // await createFile({
       //     directoryPath: `${process.cwd()}/composables`,
       //     fileName: `use${ctx.args.template.charAt(0).toUpperCase() + ctx.args.template.slice(1)}.ts`,
