@@ -8,7 +8,7 @@ export default defineCommand({
   },
   args: {
     template: {
-      type: "enum",
+      type: "string",
       description: "some local templates",
       options: ["utility", "alert", "overlay", "auth", "spinner"],
       default: "utility",
@@ -17,7 +17,7 @@ export default defineCommand({
   },
   async run(ctx) {
     try {
-      await getGigetTemplate(`github:simagar/${ctx.args.template}`);
+      await getGigetTemplate(ctx.args.template);
       // await createFile({
       //     directoryPath: `${process.cwd()}/composables`,
       //     fileName: `use${ctx.args.template.charAt(0).toUpperCase() + ctx.args.template.slice(1)}.ts`,
