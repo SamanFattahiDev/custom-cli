@@ -1,28 +1,54 @@
 import {loadConfig} from "c12";
 import {moduleTemplates} from "./moduleTemplates";
 import {exec} from "child_process"
+import {downloadTemplate} from "giget";
+import consola from "consola";
 
-let dependenciesCommand = 'pnpm i'
-let devDependenciesCommand = 'pnpm i -D'
+let dependenciesCommand = ''
+let devDependenciesCommand = ''
+const packageManagers = {
+    npm: {
+        command: 'npm i',
+        dev: '-d'
+    },
+    yarn: {
+        command: 'yarn add',
+        dev: '-D'
+    },
+    pnpm: {
+        command: 'pnpm i',
+        dev: '-D'
+    },
+}
+let selectedPackageManager = null
 
 async function getGigetTemplate(template: string) {
-
+    const selectedPackageManagerName = await consola.prompt('Select Package Manager', {
+        type: "select",
+        options: [
+            {label: "NPM", value: 'npm', hint: "NPM Manager"},
+            {label: "PNPM", value: 'pnpm', hint: "PNPM Manager"},
+            {label: "YARN", value: 'yarn', hint: "Yarn Manager"},
+        ],
+    })
+    selectedPackageManager = packageManagers[selectedPackageManagerName]
     try {
-
-        // await downloadTemplate(moduleTemplates[template].url, {
-        //     cwd: ".",
-        //     dir: "./playground",
-        //     force: true,
-        // });
+        await downloadTemplate(moduleTemplates[template].url, {
+            cwd: ".",
+            dir: "./playground",
+            force: true,
+        });
         if (moduleTemplates[template].dependencies.length > 0) {
             await installPackages(moduleTemplates[template].dependencies, false)
         }
         if (moduleTemplates[template].devDependencies.length > 0) {
             await installPackages(moduleTemplates[template].devDependencies, true)
         }
-        await runCommand()
+        if (dependenciesCommand || devDependenciesCommand) {
+            await runCommand()
+        }
     } catch (e) {
-        console.log(e);
+        consola.error(e);
     }
 }
 
@@ -44,14 +70,14 @@ async function installPackages(packageList: [], dev: boolean) {
 
 
 async function runCommand() {
-    await exec(`${dependenciesCommand} & ${devDependenciesCommand}`, (error, stdout, stderr) => {
+    await exec(`${selectedPackageManager.command} ${dependenciesCommand} & ${selectedPackageManager.command} ${selectedPackageManager.dev} ${devDependenciesCommand}`, (error, stdout, stderr) => {
         if (error) {
-            console.error('error happened:', error)
+            consola.error('error happened:', error)
         }
         if (stderr) {
-            console.error('std happened: ', stderr)
+            consola.error('std happened: ', stderr)
         }
-        console.log('stdout', stdout)
+        consola.success('stdout', stdout)
     })
 }
 

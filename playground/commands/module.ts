@@ -10,7 +10,6 @@ export default defineCommand({
     template: {
       type: "string",
       description: "module templates",
-      options: ["utility", "alert", "overlay", "auth", "spinner"],
       default: "utility",
       required: false,
     },
